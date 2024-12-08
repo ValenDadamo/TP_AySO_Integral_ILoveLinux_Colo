@@ -4,21 +4,21 @@
 Vagrant.configure("2") do |config|
 
   config.vm.define "test" do |vmtest|
-    vmHost1.vm.box = "ubuntu/jammy64"
-    vmHost1.vm.hostname = "test"
-    vmHost1.vm.network "private_network", ip: "192.168.56.4"
+    vmtest.vm.box = "ubuntu/jammy64"
+    vmtest.vm.hostname = "test"
+    vmtest.vm.network "private_network", ip: "192.168.56.4"
     
-    vmHost1.vm.synced_folder 'compartido_test/', '/home/vagrant/compartido', 
+    vmtest.vm.synced_folder 'compartido_test/', '/home/vagrant/compartido', 
       owner: 'vagrant', group: 'vagrant' 
 
-    vmHost1.ssh.insert_key = true
+    vmtest.ssh.insert_key = true
     # Agrego un nuevo disco 
-    vmHost1.vm.disk :disk, size: "5GB", name: "#{vmHost1.vm.hostname}_extra_storage"
-    vmHost1.vm.disk :disk, size: "3GB", name: "#{vmHost1.vm.hostname}_extra_storage2"
-    vmHost1.vm.disk :disk, size: "2GB", name: "#{vmHost1.vm.hostname}_extra_storage3"
-    vmHost1.vm.disk :disk, size: "1GB", name: "#{vmHost1.vm.hostname}_extra_storage4"
+    vmtest.vm.disk :disk, size: "5GB", name: "#{vmtest.vm.hostname}_extra_storage"
+    vmtest.vm.disk :disk, size: "3GB", name: "#{vmtest.vm.hostname}_extra_storage2"
+    vmtest.vm.disk :disk, size: "2GB", name: "#{vmtest.vm.hostname}_extra_storage3"
+    vmtest.vm.disk :disk, size: "1GB", name: "#{vmtest.vm.hostname}_extra_storage4"
 
-    vmHost1.vm.provider "virtualbox" do |vb|
+    vmtest.vm.provider "virtualbox" do |vb|
       vb.memory = "1024"
       vb.name = "test"
       vb.cpus = 1
@@ -26,9 +26,9 @@ Vagrant.configure("2") do |config|
       vb.customize ['modifyvm', :id, '--graphicscontroller', 'vmsvga']      
     end    
 
-    vmHost1.vm.provision "shell", path: "script_Enable_ssh_password.sh"
-    vmHost1.vm.provision "shell", path: "instala_paquetes.sh"
-    vmHost1.vm.provision "shell", privileged: false, inline: <<-SHELL
+    vmtest.vm.provision "shell", path: "script_Enable_ssh_password.sh"
+    vmtest.vm.provision "shell", path: "instala_paquetes.sh"
+    vmtest.vm.provision "shell", privileged: false, inline: <<-SHELL
       mkdir -p /home/vagrant/repogit
       cd /home/vagrant/repogit
       git clone https://github.com/upszot/UTN-FRA_SO_onBording.git 
@@ -48,14 +48,14 @@ Vagrant.configure("2") do |config|
   end
     
   config.vm.define "prod" do |vmprod|
-    vmHost2.vm.box = "fedora/37-cloud-base"
-    vmHost2.vm.hostname = "prod"
-    vmHost2.vm.network "private_network", ip: "192.168.56.5"
+    vmprod.vm.box = "fedora/37-cloud-base"
+    vmprod.vm.hostname = "prod"
+    vmprod.vm.network "private_network", ip: "192.168.56.5"
     
-    vmHost2.vm.synced_folder 'compartido_prod/', '/home/vagrant/compartido'
+    vmprod.vm.synced_folder 'compartido_prod/', '/home/vagrant/compartido'
     
-    vmHost2.ssh.insert_key = true
-    vmHost2.vm.provider "virtualbox" do |vb2|
+    vmprod.ssh.insert_key = true
+    vmprod.vm.provider "virtualbox" do |vb2|
       vb2.memory = "1024"
       vb2.name = "prod"
       vb2.cpus = 1
@@ -63,13 +63,13 @@ Vagrant.configure("2") do |config|
       vb2.customize ['modifyvm', :id, '--graphicscontroller', 'vmsvga']
     end
     
-    vmHost2.vm.provision "shell", path: "script_Enable_ssh_password.sh"
+    vmprod.vm.provision "shell", path: "script_Enable_ssh_password.sh"
 
-    vmHost2.vm.provision "shell", run: "always", inline: <<-SHELL
+    vmprod.vm.provision "shell", run: "always", inline: <<-SHELL
       sudo ip addr add 192.168.56.5/22 dev eth1 || true
     SHELL
       
-    vmHost2.vm.provision "shell", inline: <<-SHELL
+    vmprod.vm.provision "shell", inline: <<-SHELL
       dnf install -y /home/vagrant/compartido/tree-1.8.0-10.el9.x86_64.rpm
       dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
       dnf install -y git
