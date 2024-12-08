@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "test" do |vmtest|
     vmtest.vm.box = "ubuntu/jammy64"
-    vmtest.vm.hostname = "test"
+    vmtest.vm.hostname = "vmtest"
     vmtest.vm.network "private_network", ip: "192.168.56.4"
     
     vmtest.vm.synced_folder 'compartido_test/', '/home/vagrant/compartido', 
@@ -20,7 +20,7 @@ Vagrant.configure("2") do |config|
 
     vmtest.vm.provider "virtualbox" do |vb|
       vb.memory = "1024"
-      vb.name = "test"
+      vb.name = "vmtest"
       vb.cpus = 1
       vb.linked_clone = true
       vb.customize ['modifyvm', :id, '--graphicscontroller', 'vmsvga']      
@@ -47,9 +47,9 @@ Vagrant.configure("2") do |config|
     SHELL
   end
     
-  config.vm.define "prod" do |vmprod|
+  config.vm.define :prod do |vmprod|
     vmprod.vm.box = "fedora/37-cloud-base"
-    vmprod.vm.hostname = "prod"
+    vmprod.vm.hostname = "vmprod"
     vmprod.vm.network "private_network", ip: "192.168.56.5"
     
     vmprod.vm.synced_folder 'compartido_prod/', '/home/vagrant/compartido'
@@ -57,7 +57,7 @@ Vagrant.configure("2") do |config|
     vmprod.ssh.insert_key = true
     vmprod.vm.provider "virtualbox" do |vb2|
       vb2.memory = "1024"
-      vb2.name = "prod"
+      vb2.name = "vmprod"
       vb2.cpus = 1
       vb2.linked_clone = true
       vb2.customize ['modifyvm', :id, '--graphicscontroller', 'vmsvga']
