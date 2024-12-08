@@ -35,10 +35,10 @@ Vagrant.configure("2") do |config|
       git clone https://github.com/upszot/UTN-FRA_SO_Ansible.git
       git clone https://github.com/upszot/UTN-FRA_SO_Docker.git
       cd ..
-      git clone --branch dev https://github.com/JoniBe/TP_AySO_Integral_Las_Mitocondrias
+      git clone https://github.com/ValenDadamo/TP_AySO_Integral_ILoveLinux_Colo.git
       mkdir -p /home/vagrant/script_folders
       cd /home/vagrant/script_folders
-      git clone https://github.com/giulianolol/script.git
+      git clone https://github.com/ValenDadamo/TP_AySO_Integral_Scripts.git
       cd /home/vagrant/script_folders/script
       chmod +x script_cross_visudo_hosts.sh
       chmod +x script_discos.sh
@@ -74,8 +74,8 @@ Vagrant.configure("2") do |config|
 
       mkdir -p /home/vagrant/script_folders
       cd /home/vagrant/script_folders
-      sudo git clone https://github.com/giulianolol/script_fedora.git
-      sudo git clone --branch dev https://github.com/JoniBe/TP_AySO_Integral_Las_Mitocondrias
+      sudo git clone https://github.com/ValenDadamo/TP_AySO_Integral_Scripts.git
+      sudo git clone https://github.com/ValenDadamo/TP_AySO_Integral_ILoveLinux_Colo.git
       cd /home/vagrant/script_folders/script_fedora
       sudo chmod +x script_cross_visudo_hosts.sh
     SHELL
