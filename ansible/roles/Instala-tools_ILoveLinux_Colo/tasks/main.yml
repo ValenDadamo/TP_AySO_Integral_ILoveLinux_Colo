@@ -1,5 +1,6 @@
 ---
 - name: Instalar herramientas
+  become: yes
   package:
     name: "{{ item }}"
     state: present
