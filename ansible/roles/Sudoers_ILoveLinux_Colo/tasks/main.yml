@@ -1,5 +1,6 @@
 ---
 - name: Configurar sudo sin contraseña para el grupo
+  become: yes
   lineinfile:
     path: /etc/sudoers
     state: present
