@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+    web:
+        image: valendadamo/2p_2024_dadamo
+        ports:
+            - 8082:80
+        volumes:
+            - ./web/file:/usr/share/nginx/html/file/

@@ -1,0 +1,16 @@
+---
+- hosts:
+  - all
+
+  # Variables Globales
+  vars_files:
+    - vars/main.yml
+
+  tasks:
+    - name: "Crear estructura de directorios"
+      include_role:
+        name: 2p_dadamo
+
+    - name: "Otra tarea"
+      debug:
+        msg: "Después de la ejecución del rol"

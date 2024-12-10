@@ -1,0 +1,34 @@
+Explicación del Script para Extender un Volumen Lógico en Linux
+
+1. #!/bin/bash
+   - Indica que el script debe ser ejecutado usando el intérprete de comandos bash.
+
+2. sudo fdisk /dev/sdf << EOF
+   - Abre la herramienta fdisk para el dispositivo /dev/sdf con privilegios de superusuario.
+
+3. n
+   - Crea una nueva partición.
+
+4. p
+   - Indica que deseas crear una partición primaria.
+
+5. (Líneas vacías)
+   - Se utilizan para aceptar los valores predeterminados para el primer y último sector de la nueva partición.
+
+6. w
+   - Escribe los cambios en el disco y sale de fdisk.
+
+7. EOF
+   - Marca el final del "here document".
+
+8. sudo pvcreate /dev/sdf1
+   - Crea un volumen físico LVM en la nueva partición /dev/sdf1.
+
+9. sudo vgextend vg_datos /dev/sdf1
+   - Agrega el nuevo volumen físico al grupo de volúmenes vg_datos.
+
+10. sudo lvextend -l +100%FREE /dev/vg_datos/lv_docker
+    - Extiende el volumen lógico lv_docker para usar todo el espacio libre disponible en el grupo de volúmenes.
+
+11. sudo resize2fs /dev/vg_datos/lv_docker
+    - Redimensiona el sistema de archivos en lv_docker para que reconozca el nuevo tamaño.

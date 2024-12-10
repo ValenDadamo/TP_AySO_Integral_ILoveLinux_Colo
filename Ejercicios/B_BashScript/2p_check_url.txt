@@ -1,0 +1,63 @@
+Explicación del Script `2p_check_url.sh`
+
+1. #!/bin/bash
+   - Indica que el script debe ser ejecutado usando el intérprete de comandos bash.
+
+2. LISTA="$HOME/2p_2024/B_BashScript/Lista.txt"
+   - Define la variable `LISTA`, que contiene la ruta al archivo con la lista de URLs y dominios a validar.
+
+3. BASE_DIR="/tmp/head-check"
+   - Define la variable `BASE_DIR`, que es la ruta base donde se crearán los directorios para almacenar los resultados.
+
+4. if [[ -z $LISTA ]]; then
+      echo "Error: Debes proporcionar un archivo con la lista de URLs."
+      exit 1
+   fi
+   - Verifica si la variable `LISTA` está vacía. Si es así, imprime un mensaje de error y termina la ejecución del script.
+
+5. if [[ ! -f $LISTA ]]; then
+      echo "Error: El archivo $LISTA no existe."
+      exit 1
+   fi
+   - Comprueba si el archivo especificado en `LISTA` existe. Si no existe, muestra un mensaje de error y termina el script.
+
+6. mkdir -p "$BASE_DIR/ok" "$BASE_DIR/Error/cliente" "$BASE_DIR/Error/servidor"
+   - Crea los directorios necesarios para clasificar los resultados:
+     - `ok`: Para URLs que devuelven un código 200.
+     - `Error/cliente`: Para URLs que devuelven códigos de error del cliente (400-499).
+     - `Error/servidor`: Para URLs que devuelven códigos de error del servidor (500-599).
+
+7. while IFS= read -r LINE; do
+      [[ -z "$LINE" || "$LINE" == \#* ]] && continue
+   - Inicia un bucle que lee cada línea del archivo `Lista.txt`. Ignora líneas vacías y comentarios (líneas que comienzan con `#`).
+
+8. URL=$(echo "$LINE" | awk -F';' '{print $1}' | xargs)
+   - Extrae la URL de la línea actual, asumiendo que está separada por un punto y coma (`;`) y elimina espacios adicionales.
+
+9. DOMINIO=$(echo "$LINE" | awk -F';' '{print $2}' | xargs)
+   - Extrae el dominio de la línea actual, utilizando la misma lógica que para la URL.
+
+10. STATUS_CODE=$(curl -LI -o /dev/null -w '%{http_code}' -s "$URL")
+    - Utiliza `curl` para hacer una solicitud HEAD a la URL y obtener el código de estado HTTP. La opción `-s` suprime la salida de progreso.
+
+11. if [[ $STATUS_CODE -eq 200 ]]; then
+        DIR="$BASE_DIR/ok"
+    elif [[ $STATUS_CODE -ge 400 && $STATUS_CODE -lt 500 ]]; then
+        DIR="$BASE_DIR/Error/cliente"
+    elif [[ $STATUS_CODE -ge 500 && $STATUS_CODE -lt 600 ]]; then
+        DIR="$BASE_DIR/Error/servidor"
+    else
+        DIR="$BASE_DIR/Error/cliente" # Manejo de códigos inesperados
+        STATUS_CODE="Error"
+    fi
+    - Clasifica el código de estado recibido:
+      - **200**: Se clasifica como "ok".
+      - **400-499**: Se clasifica como error del cliente.
+      - **500-599**: Se clasifica como error del servidor.
+      - Cualquier otro código se maneja como error del cliente.
+
+12. echo "$DOMINIO - $URL - Code: $STATUS_CODE" >> "$DIR/$DOMINIO.log"
+    - Registra el resultado en un archivo de log correspondiente al dominio, incluyendo la URL y el código de estado.
+
+13. echo "Proceso completado. Revisa la estructura en $BASE_DIR."
+    - Al final del script, imprime un mensaje indicando que el proceso ha terminado y sugiere revisar la estructura de directorios creada.

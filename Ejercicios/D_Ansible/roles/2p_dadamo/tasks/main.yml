@@ -1,0 +1,11 @@
+---
+# Crear estructura de directorios
+- name: Crear estructura de directorios
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "{{ ansible_env.HOME }}/2p_Estructura/backend/config"
+    - "{{ ansible_env.HOME }}/2p_Estructura/frontend/config"
+    - "{{ ansible_env.HOME }}/2p_Estructura/frontend/html"
