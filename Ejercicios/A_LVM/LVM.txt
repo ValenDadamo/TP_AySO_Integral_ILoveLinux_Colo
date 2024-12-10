@@ -29,6 +29,9 @@ Explicación del Script para Extender un Volumen Lógico en Linux
 
 10. sudo lvextend -l +100%FREE /dev/vg_datos/lv_docker
     - Extiende el volumen lógico lv_docker para usar todo el espacio libre disponible en el grupo de volúmenes.
+    - Usa -l cuando quieras especificar el tamaño en términos de extensiones lógicas.
+    - Usa -L cuando quieras especificar el tamaño en unidades de medida más familiares como MB o GB. (-L +500M)
+
 
 11. sudo resize2fs /dev/vg_datos/lv_docker
     - Redimensiona el sistema de archivos en lv_docker para que reconozca el nuevo tamaño.

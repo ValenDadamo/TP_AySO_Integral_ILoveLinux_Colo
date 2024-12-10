@@ -58,6 +58,9 @@ Explicación del Script `2p_check_url.sh`
 
 12. echo "$DOMINIO - $URL - Code: $STATUS_CODE" >> "$DIR/$DOMINIO.log"
     - Registra el resultado en un archivo de log correspondiente al dominio, incluyendo la URL y el código de estado.
+    - > Sobrescribe el archivo, eliminando el contenido anterior.
+    - >> Añade al archivo, conservando el contenido anterior.
+
 
 13. echo "Proceso completado. Revisa la estructura en $BASE_DIR."
     - Al final del script, imprime un mensaje indicando que el proceso ha terminado y sugiere revisar la estructura de directorios creada.
