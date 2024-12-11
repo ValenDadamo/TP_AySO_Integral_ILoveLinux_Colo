@@ -1,1 +1,3 @@
 dentro de la imagen empaquetada, instalar vim, volver a compilar y no pushear. Levantar la imagen en el puerto 443
+
+docker exec -ti (id) /bin/bash
