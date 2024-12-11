@@ -1,0 +1,37 @@
+vagrant up
+vagrant ssh test
+cd script_folders/TP_AySO_Integral_Scripts/
+./script_discos.sh
+./script_cross_visudo_hosts.sh
+ssh testing
+yes
+(ctrl + d)
+ssh production
+yes
+cd script_folders/TP_AySO_Integral_Scripts_Fedora/
+./script_cross_visudo_hosts.sh
+ssh testing
+yes
+(ctrl + d)
+ssh production
+yes
+vagrant
+(ctrl + d)
+(ctrl + d)
+cd ../../TP_AySO_Integral_ILoveLinux_Colo/Bash_script/alta_usuarios/
+chmod +x alta_usuarios.sh
+./alta_usuarios.sh
+cd ../check_url/
+chmod +x check_URL.sh
+./check_URL
+cd ../../ansible/
+ansible-playbook -i hosts.ini main.yml
+ansible-playbook -i hosts.ini main.yml
+cd ../docker/
+sudo usermod -aG docker vagrant
+newgrp docker
+docker login
+sudo systemctl restart docker
+docker build -t valendadamo/ilovelinux_colo .
+docker push valendadamo/ilovelinux_colo
+docker run -d -p 8081:80 valendadamo/ilovelinux_colo

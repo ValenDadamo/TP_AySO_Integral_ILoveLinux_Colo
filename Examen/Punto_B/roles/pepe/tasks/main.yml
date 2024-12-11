@@ -1,0 +1,5 @@
+---
+# tasks file for roles/pepe
+- name: Imprimir cartelito
+  debug:
+    msg: "Estoy dentro del rol"

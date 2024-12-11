@@ -1,0 +1,13 @@
+---
+- name: Configuración de Servidores del TP Integral
+  hosts: servidores
+
+  vars:
+    nombre_grupo: "ILoveLinux_Colo"
+
+  roles:
+    - TP_INI
+    - Alta_Usuarios_ILoveLinux_Colo
+    - Sudoers_ILoveLinux_Colo
+    - Instala-tools_ILoveLinux_Colo
+    - pepe

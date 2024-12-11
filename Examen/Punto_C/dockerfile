@@ -1,0 +1,6 @@
+FROM nginx
+COPY web /usr/share/nginx/html
+RUN apt-get update && \
+    apt-get install -y vim nano htop && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
