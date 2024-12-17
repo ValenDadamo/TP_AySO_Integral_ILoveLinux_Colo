@@ -11,3 +11,23 @@
     - Sudoers_ILoveLinux_Colo
     - Instala-tools_ILoveLinux_Colo
     - pepe
+    - permisos
+
+# - tasks:
+#     - include_role:
+#         name: TP_INI
+
+#     - include_role:
+#         name: Alta_Usuarios_ILoveLinux_Colo
+
+#     - include_role:
+#         name: Sudoers_ILoveLinux_Colo
+
+#     - include_role:
+#         name: Instala-tools_ILoveLinux_Colo
+
+#     - include_role:
+#         name: pepe
+
+#     - include_role:
+#         name: permisos

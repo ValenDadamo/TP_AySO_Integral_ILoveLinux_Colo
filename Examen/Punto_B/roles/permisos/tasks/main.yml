@@ -1,0 +1,16 @@
+---
+- name: Crear un directorio para el usuario
+  become: yes
+  file:
+    path: /home/vagrant/lala
+    state: directory
+    owner: vagrant
+    group: vagrant
+
+- name: Crear un archivo dentro del directorio
+  file:
+    path: /home/vagrant/lala/archivo
+    state: touch
+    owner: vagrant
+    group: vagrant
+    mode: '0111'

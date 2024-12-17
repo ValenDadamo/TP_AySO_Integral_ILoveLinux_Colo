@@ -1,0 +1,1 @@
+crea carpeta pepito con el archivo juan, cambiar la carpeta para que no se vea en el home, pero que puedas acceder al archivo
